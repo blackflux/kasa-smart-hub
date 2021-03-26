@@ -6,5 +6,5 @@ module.exports = (config) => {
 
   return {
     start: () => {}
-  }
+  };
 };
