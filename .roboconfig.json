@@ -1,0 +1,16 @@
+{
+  "@blackflux/robo-config-plugin": {
+    "tasks": [
+      "assorted/@npm-opensource"
+    ],
+    "variables": {
+      "nodeVersion": "12",
+      "repoKey": "blackflux/kasa-smart-hub",
+      "packageName": "kasa-smart-hub",
+      "projectName": "kasa-smart-hub",
+      "owner": "simlu",
+      "ownerName": "Lukas Siemon",
+      "mergeBot": "MrsFlux"
+    }
+  }
+}

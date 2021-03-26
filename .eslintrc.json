@@ -1,0 +1,46 @@
+{
+  "root": true,
+  "extends": [
+    "airbnb-base",
+    "plugin:mocha/recommended",
+    "plugin:markdown/recommended"
+  ],
+  "rules": {
+    "mocha/no-mocha-arrows": 0,
+    "mocha/no-hooks-for-single-case": 0,
+    "@blackflux/rules/istanbul-prevent-ignore": 1,
+    "@blackflux/rules/kebab-case-enforce": 1,
+    "@blackflux/rules/prevent-typeof-object": 1,
+    "import/no-useless-path-segments": [2, {"commonjs": true}],
+    "max-len": ["error", {"code": 120}],
+    "mocha/no-exclusive-tests": "error",
+    "prefer-destructuring": ["error", {"object": false, "array": false}],
+    "comma-dangle": ["error", "never"],
+    "indent": ["error", 2, {"SwitchCase": 1}],
+    "quotes": [2, "single", {"avoidEscape": true}],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "no-unused-vars": [
+      1,
+      {"vars": "all", "args": "none", "ignoreRestSiblings": true}
+    ],
+    "no-var": [1],
+    "no-fallthrough": [1],
+    "spaced-comment": [
+      "error",
+      "always",
+      {
+        "line": {"exceptions": ["-", "+"], "markers": ["=", "!"]},
+        "block": {
+          "exceptions": ["-", "+"],
+          "markers": ["=", "!", ":", "::"],
+          "balanced": true
+        }
+      }
+    ]
+  },
+  "env": {"es6": true, "node": true, "mocha": true},
+  "globals": {},
+  "plugins": ["json", "mocha", "@blackflux/rules"],
+  "parser": "babel-eslint"
+}
