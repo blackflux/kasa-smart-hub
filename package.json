@@ -109,6 +109,7 @@
   },
   "dependencies": {
     "joi-strict": "2.0.0",
+    "object-scan": "14.0.0",
     "tplink-smarthome-api": "3.3.0"
   }
 }
