@@ -25,6 +25,7 @@
     "eslint-plugin-markdown": "2.0.0",
     "eslint-plugin-mocha": "8.1.0",
     "js-gardener": "3.0.3",
+    "node-tdd": "3.0.4",
     "nyc": "15.1.0",
     "semantic-release": "17.4.2"
   },
@@ -105,5 +106,9 @@
   },
   "engines": {
     "node": ">= 12"
+  },
+  "dependencies": {
+    "joi-strict": "2.0.0",
+    "tplink-smarthome-api": "3.3.0"
   }
 }

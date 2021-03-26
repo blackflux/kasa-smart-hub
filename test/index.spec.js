@@ -1,8 +1,12 @@
 const expect = require('chai').expect;
-const index = require('../src/index');
+const { describe } = require('node-tdd');
+const Hub = require('../src/index');
 
 describe('Testing Package', () => {
-  it('Testing Addition', () => {
-    expect(index(7, 9)).to.equal(16);
+  it('Testing Init', ({ fixture }) => {
+    const hub = Hub(fixture('config'));
+    expect(Object.fromEntries(Object.entries(hub).map(([k, v]) => [k, typeof v]))).to.deep.equal({
+      start: 'function'
+    });
   });
 });
