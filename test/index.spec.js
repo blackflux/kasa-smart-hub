@@ -6,7 +6,8 @@ describe('Testing Package', () => {
   it('Testing Init', ({ fixture }) => {
     const hub = Hub(fixture('config'));
     expect(Object.fromEntries(Object.entries(hub).map(([k, v]) => [k, typeof v]))).to.deep.equal({
-      start: 'function'
+      start: 'function',
+      stop: 'function'
     });
   });
 });
