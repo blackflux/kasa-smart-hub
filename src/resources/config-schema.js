@@ -13,8 +13,10 @@ module.exports = Joi.object().keys({
     discoveryTimeout: Joi.number().integer().min(0).optional(),
     offlineTolerance: Joi.number().integer().min(0).optional()
   }).unknown(true),
-  defaultTimerDuration: timerSchema,
   logFile: Joi.string(),
   links: Joi.object().pattern(Joi.string(), Joi.array().items(Joi.string())),
-  timer: Joi.object().pattern(Joi.string(), timerSchema)
+  timer: Joi.object()
+    .keys({ __default: Joi.number().integer().min(0) })
+    .unknown(true)
+    .pattern(Joi.string(), timerSchema)
 });
