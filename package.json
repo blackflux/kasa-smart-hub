@@ -28,7 +28,8 @@
     "node-tdd": "3.0.4",
     "nyc": "15.1.0",
     "semantic-release": "17.4.2",
-    "smart-fs": "2.0.2"
+    "smart-fs": "2.0.2",
+    "tplink-smarthome-simulator": "2.0.0"
   },
   "licenses": [
     {
