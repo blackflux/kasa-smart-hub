@@ -3,7 +3,6 @@ const Joi = require('joi-strict');
 const timerSchema = Joi.number().integer().min(60);
 
 module.exports = Joi.object().keys({
-  onNewDevice: Joi.function(),
   discoveryConfig: Joi.object().keys({
     broadcast: Joi.string().ip().optional(),
     // eslint-disable-next-line newline-per-chained-call
