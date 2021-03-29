@@ -2,6 +2,10 @@
   "name": "kasa-smart-hub",
   "version": "0.0.0-development",
   "main": "lib/index.js",
+  "preferGlobal": true,
+  "bin": {
+    "kasa-smart-hub": "./lib/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/blackflux/kasa-smart-hub.git"
