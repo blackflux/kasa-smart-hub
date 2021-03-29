@@ -62,6 +62,36 @@ module.exports = {
 };
 ```
 
+## Configure Raspberry Pi Auto Start
+
+Ensure you are running a recent node version. Install with
+
+`npm install -g kasa-smart-hub`
+
+Place
+
+```
+[Service]
+WorkingDirectory=/home/pi/kasa-smart-hub
+ExecStart=kasa-smart-hub start /home/pi/kasa-smart-hub/config.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=
+User=pi
+Group=pi
+[Install]
+WantedBy=multi-user.target
+```
+
+in `/etc/systemd/system/kasa-smart-hub.service`.
+
+Ensure it is readable/writeable/executable by the appropriate user.
+
+Now enable service with `sudo systemctl enable kasa-smart-hub`
+
+To start the service right away run `sudo systemctl start kasa-smart-hub`
+
 ## Acknowledgements
 
 This project relies on [tplink-smarthome-api](https://github.com/plasticrake/tplink-smarthome-api). Documentation for that project can be found [here](https://freesoft.dev/program/63196852#startDiscovery).
