@@ -15,4 +15,53 @@ Designed to be run on a LAN server, e.g. on a [Raspberry Pi](https://en.wikipedi
 
 ## How to
 
-...
+Install as global npm packages. Then create configuration file and start with
+
+```sh
+kasa-smart-hub /path/to/config.json
+```
+
+## Config
+
+Configuration can be in multiple formats. Most likely you want to use `config.js` or `config.json`.
+
+### logFile
+
+Where events logs are stored
+
+### links
+
+Object that contains "linked" switches that are always executed together.
+
+### timer
+
+Used to automatically switch off devices
+
+#### __default
+
+Default fallback timer. Can be set to zero to disable.
+
+## Config Example
+
+```js
+const path = require('path');
+
+module.exports = {
+  logFile: path.join(__dirname, 'kasa-logs.txt'),
+  links: {
+    'kitchen-lights': [
+      // when either of these is switched on / off the other one will also switch on / off
+      'Kitchen Counter Lights',
+      'Kitchen Ceiling Light'
+    ]
+  },
+  timer: {
+    __default: 8 * 60 * 60, // switch off everything after eight hours
+    'Bathroom Fan': 60 * 60 // switch off after one hour
+  }
+};
+```
+
+## Acknowledgements
+
+This project relies on [tplink-smarthome-api](https://github.com/plasticrake/tplink-smarthome-api). Documentation for that project can be found [here](https://freesoft.dev/program/63196852#startDiscovery).

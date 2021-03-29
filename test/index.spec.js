@@ -1,8 +1,9 @@
 const expect = require('chai').expect;
+const { describe } = require('node-tdd');
 const index = require('../src/index');
 
-describe('Testing Package', () => {
-  it('Testing Addition', () => {
-    expect(index(7, 9)).to.equal(16);
+describe('Testing Index', () => {
+  it('Testing Exported', () => {
+    expect(index instanceof Object).to.equal(true);
   });
 });
