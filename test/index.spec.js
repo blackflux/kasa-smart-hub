@@ -11,23 +11,17 @@ describe('Testing Package', {
   record: console,
   timestamp: '2021-03-28T21:39:01.897Z'
 }, () => {
-  let device;
   before(async () => {
-    device = new Device({
-      model: 'hs200',
-      data: { alias: 'Mock HS200', mac: '50:c7:bf:46:b4:24', deviceId: 'A200' }
-    });
     await UdpServer.start();
-    await device.start();
   });
 
   after(async () => {
-    await device.stop();
     UdpServer.stop();
   });
 
+  let device;
   let execute;
-  beforeEach(({ fixture, dir, recorder }) => {
+  beforeEach(async ({ fixture, dir, recorder }) => {
     execute = async (expected, cb, cfg = {}) => {
       const logFile = path.join(dir, 'kasa-logs.txt');
       const hub = Hub({
@@ -45,6 +39,15 @@ describe('Testing Package', {
       expect(recorder.get()).to.deep.equal(expected);
       expect(fs.smartRead(logFile)).to.deep.equal(expected);
     };
+    device = new Device({
+      model: 'hs200',
+      data: { alias: 'Mock HS200', mac: '50:c7:bf:46:b4:24', deviceId: 'A200' }
+    });
+    await device.start();
+  });
+
+  afterEach(async () => {
+    await device.stop();
   });
 
   it('Testing Init', ({ fixture }) => {
@@ -62,5 +65,11 @@ describe('Testing Package', {
       '[2021-03-28T21:39:01.897Z]: Timer Triggered: Mock HS200 @ 12:00:00'
     ],
     (d1) => d1.setPowerState(true)
+  ));
+
+  it('Testing Device Switched On, default timer of zero', () => execute(
+    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200 @ on'],
+    (d1) => d1.setPowerState(true),
+    { timer: { __default: 0 } }
   ));
 });
