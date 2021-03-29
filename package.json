@@ -28,7 +28,6 @@
     "node-tdd": "3.0.4",
     "nyc": "15.1.0",
     "semantic-release": "17.4.2",
-    "smart-fs": "2.0.2",
     "tplink-smarthome-simulator": "2.0.0"
   },
   "licenses": [
@@ -112,6 +111,8 @@
   "dependencies": {
     "joi-strict": "2.0.0",
     "object-scan": "14.0.0",
-    "tplink-smarthome-api": "3.3.0"
+    "smart-fs": "2.0.2",
+    "tplink-smarthome-api": "3.3.0",
+    "yargs": "16.2.0"
   }
 }
