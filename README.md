@@ -61,3 +61,7 @@ module.exports = {
   }
 };
 ```
+
+## Acknowledgements
+
+This project relies on [tplink-smarthome-api](https://github.com/plasticrake/tplink-smarthome-api). Documentation for that project can be found [here](https://freesoft.dev/program/63196852#startDiscovery).
