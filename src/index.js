@@ -77,15 +77,22 @@ module.exports = (config_) => {
 
   return {
     client,
-    start: () => client.startDiscovery({
-      broadcast: '192.168.0.255',
-      port: 56888,
-      breakoutChildren: true,
-      discoveryInterval: 10000,
-      discoveryTimeout: 0,
-      offlineTolerance: 3,
-      ...config.discoveryConfig
-    }),
-    stop: () => client.stopDiscovery()
+    start: () => {
+      client.startDiscovery({
+        broadcast: '192.168.0.255',
+        port: 56888,
+        breakoutChildren: true,
+        discoveryInterval: 10000,
+        discoveryTimeout: 0,
+        offlineTolerance: 3,
+        ...config.discoveryConfig
+      });
+    },
+    stop: () => {
+      [...client.devices.values()].forEach((d) => {
+        d.stopPolling();
+      });
+      client.stopDiscovery();
+    }
   };
 };

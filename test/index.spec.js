@@ -72,4 +72,20 @@ describe('Testing Package', {
     (d1) => d1.setPowerState(true),
     { timer: { __default: 0 } }
   ));
+
+  it('Testing Linked Devices', () => execute(
+    [
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+      '[2021-03-28T21:39:01.897Z]: Link Triggered: Mock HS200-A -> Mock HS200-B @ on',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-B @ on',
+      '[2021-03-28T21:39:01.897Z]: Timer Triggered: Mock HS200-A @ 12:00:00',
+      '[2021-03-28T21:39:01.897Z]: Timer Triggered: Mock HS200-B @ 12:00:00'
+    ],
+    (d1) => d1.setPowerState(true),
+    {
+      links: {
+        'switch-link': ['Mock HS200-A', 'Mock HS200-B']
+      }
+    }
+  ));
 });
