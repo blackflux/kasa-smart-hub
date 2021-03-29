@@ -30,7 +30,7 @@ describe('Testing Package', {
       });
       hub.start();
       await wait(50);
-      await cb(...hub.client.devices.values());
+      await cb(...hub.getDevices());
       await wait(50);
       hub.stop();
       expect(recorder.get()).to.deep.equal(expected);
@@ -53,9 +53,9 @@ describe('Testing Package', {
   it('Testing Init', ({ fixture }) => {
     const hub = Hub(fixture('config'));
     expect(Object.fromEntries(Object.entries(hub).map(([k, v]) => [k, typeof v]))).to.deep.equal({
-      client: 'object',
       start: 'function',
-      stop: 'function'
+      stop: 'function',
+      getDevices: 'function'
     });
   });
 

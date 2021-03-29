@@ -76,7 +76,6 @@ module.exports = (config_) => {
   });
 
   return {
-    client,
     start: () => {
       client.startDiscovery({
         broadcast: '192.168.0.255',
@@ -93,6 +92,7 @@ module.exports = (config_) => {
         d.stopPolling();
       });
       client.stopDiscovery();
-    }
+    },
+    getDevices: () => [...client.devices.values()]
   };
 };
