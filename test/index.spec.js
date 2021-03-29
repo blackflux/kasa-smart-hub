@@ -67,6 +67,19 @@ describe('Testing Package', {
     (d1) => d1.setPowerState(true)
   ));
 
+  it('Testing Device Switched Off', () => execute(
+    [
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+      '[2021-03-28T21:39:01.897Z]: Timer Triggered: Mock HS200-A @ 12:00:00',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ off'
+    ],
+    async (d1) => {
+      await d1.setPowerState(true);
+      await wait(50);
+      await d1.setPowerState(false);
+    }
+  ));
+
   it('Testing Device Switched On, default timer of zero', () => execute(
     ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
     (d1) => d1.setPowerState(true),
