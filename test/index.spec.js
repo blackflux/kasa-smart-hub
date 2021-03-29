@@ -2,9 +2,9 @@ const fs = require('smart-fs');
 const path = require('path');
 const expect = require('chai').expect;
 const { describe } = require('node-tdd');
-const { Device, UdpServer } = require('tplink-smarthome-simulator');
 const wait = require('./helper/wait');
 const Hub = require('../src/index');
+const Mocker = require('./helper/mocker');
 
 describe('Testing Package', {
   useTmpDir: true,
@@ -12,14 +12,13 @@ describe('Testing Package', {
   timestamp: '2021-03-28T21:39:01.897Z'
 }, () => {
   before(async () => {
-    await UdpServer.start();
+    await Mocker.start();
   });
 
   after(async () => {
-    UdpServer.stop();
+    await Mocker.stop();
   });
 
-  let device;
   let execute;
   beforeEach(async ({ fixture, dir, recorder }) => {
     execute = async (expected, cb, cfg = {}) => {
@@ -31,23 +30,24 @@ describe('Testing Package', {
       });
       hub.start();
       await wait(50);
-      const devices = [...hub.client.devices.values()];
-      expect(devices.map(({ alias }) => alias)).to.deep.equal(['Mock HS200']);
-      await cb(...devices);
+      await cb(...hub.client.devices.values());
       await wait(50);
       hub.stop();
       expect(recorder.get()).to.deep.equal(expected);
       expect(fs.smartRead(logFile)).to.deep.equal(expected);
     };
-    device = new Device({
+    await Mocker.spawn({
       model: 'hs200',
-      data: { alias: 'Mock HS200', mac: '50:c7:bf:46:b4:24', deviceId: 'A200' }
+      data: { alias: 'Mock HS200-A', mac: '50:c7:bf:46:b4:24', deviceId: 'A200-A' }
     });
-    await device.start();
+    await Mocker.spawn({
+      model: 'hs200',
+      data: { alias: 'Mock HS200-B', mac: '8b:fd:e9:90:32:01', deviceId: 'A200-B' }
+    });
   });
 
   afterEach(async () => {
-    await device.stop();
+    await Mocker.clear();
   });
 
   it('Testing Init', ({ fixture }) => {
@@ -61,14 +61,14 @@ describe('Testing Package', {
 
   it('Testing Device Switched On', () => execute(
     [
-      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200 @ on',
-      '[2021-03-28T21:39:01.897Z]: Timer Triggered: Mock HS200 @ 12:00:00'
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+      '[2021-03-28T21:39:01.897Z]: Timer Triggered: Mock HS200-A @ 12:00:00'
     ],
     (d1) => d1.setPowerState(true)
   ));
 
   it('Testing Device Switched On, default timer of zero', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200 @ on'],
+    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
     (d1) => d1.setPowerState(true),
     { timer: { __default: 0 } }
   ));
