@@ -1,6 +1,8 @@
 const Joi = require('joi-strict');
+const { time } = require('./regex');
 
 const timerSchema = Joi.number().integer().min(60);
+const times = Joi.array().items(Joi.string().regex(time)).unique().min(1);
 
 module.exports = Joi.object().keys({
   discoveryConfig: Joi.object().keys({
@@ -15,10 +17,12 @@ module.exports = Joi.object().keys({
   logFile: Joi.string(),
   links: Joi.object().pattern(
     Joi.string(),
-    Joi.array().items(Joi.string()).unique()
+    Joi.array().items(Joi.string()).unique().min(1)
   ),
   timer: Joi.object()
     .keys({ __default: Joi.number().integer().min(0) })
     .unknown(true)
-    .pattern(Joi.string(), timerSchema)
+    .pattern(Joi.string(), timerSchema),
+  on: Joi.object().unknown(true).pattern(Joi.string(), times),
+  timezone: Joi.string()
 });
