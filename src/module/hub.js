@@ -3,6 +3,7 @@ const { Client } = require('tplink-smarthome-api');
 const configSchema = require('../resources/config-schema');
 const computeLinks = require('../util/compute-links');
 const secondsToHumansReadable = require('../util/seconds-to-human-readable');
+const computeDelay = require('../util/compute-delay');
 const onlyOnce = require('../util/only-once');
 const ForEach = require('../util/for-each');
 const Log = require('../util/log');
@@ -19,11 +20,8 @@ module.exports = (config_) => {
   const client = new Client();
   const forEach = ForEach(client);
 
-  const updateDeviceTimer = async (device) => onlyOnce(`update-timer: ${device.alias}`, async () => {
-    const delay = device.alias in config.timer
-      ? config.timer[device.alias]
-      // eslint-disable-next-line no-underscore-dangle
-      : config.timer.__default;
+  const updateDeviceTimer = async (device, state) => onlyOnce(`update-timer: ${device.alias}`, async () => {
+    const delay = computeDelay(device.alias, state, config);
     if (delay === 0) {
       return;
     }
@@ -31,13 +29,13 @@ module.exports = (config_) => {
     if (rules.err_code !== 0) {
       return;
     }
-    if (rules.rule_list.some((r) => r.enable === 1 && r.remain <= delay)) {
+    if (rules.rule_list.some((r) => r.enable === (state === true ? 1 : 0) && r.remain <= delay)) {
       return;
     }
-    const state = await device.getPowerState();
-    if (state === true) {
-      log(`Timer Triggered: ${device.alias} @ ${secondsToHumansReadable(delay)}`);
-      await device.timer.addRule({ delay, powerState: false });
+    const newState = await device.getPowerState();
+    if (newState === state) {
+      log(`Timer Started: ${device.alias} - ${state ? 'OFF' : 'ON'} in ${secondsToHumansReadable(delay)}`);
+      await device.timer.addRule({ delay, powerState: !state });
     }
   });
 
@@ -59,10 +57,7 @@ module.exports = (config_) => {
   };
 
   const onDeviceSync = async (device, state) => {
-    if (state === true) {
-      // todo: prevent too frequent executions
-      await updateDeviceTimer(device);
-    }
+    await updateDeviceTimer(device, state);
   };
 
   client.on('device-new', (device) => {

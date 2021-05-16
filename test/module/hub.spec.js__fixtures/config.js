@@ -9,5 +9,8 @@ module.exports = {
   links: {},
   timer: {
     __default: 12 * 60 * 60
-  }
+  },
+  on: {},
+  off: {},
+  timezone: 'America/Vancouver'
 };
