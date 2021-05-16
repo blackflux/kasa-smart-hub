@@ -58,7 +58,11 @@ module.exports = {
   timer: {
     __default: 8 * 60 * 60, // switch off everything after eight hours
     'Bathroom Fan': 60 * 60 // switch off after one hour
-  }
+  },
+  on: {
+    'Plant Light': ['21:00'] // switch on every day at 9pm
+  },
+  timezone: 'America/Vancouver'
 };
 ```
 

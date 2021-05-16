@@ -13,25 +13,25 @@
   "author": "Lukas Siemon",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "7.13.10",
-    "@babel/core": "7.13.10",
-    "@babel/register": "7.13.8",
+    "@babel/cli": "7.13.16",
+    "@babel/core": "7.14.2",
+    "@babel/register": "7.13.16",
     "@blackflux/eslint-plugin-rules": "2.0.3",
-    "@blackflux/robo-config-plugin": "5.0.0",
+    "@blackflux/robo-config-plugin": "5.1.0",
     "babel-eslint": "10.1.0",
     "babel-preset-latest-node": "5.5.1",
     "chai": "4.3.4",
     "coveralls": "3.1.0",
-    "eslint": "7.22.0",
+    "eslint": "7.26.0",
     "eslint-config-airbnb-base": "14.2.1",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-json": "2.1.2",
-    "eslint-plugin-markdown": "2.0.0",
+    "eslint-plugin-import": "2.23.2",
+    "eslint-plugin-json": "3.0.0",
+    "eslint-plugin-markdown": "2.1.0",
     "eslint-plugin-mocha": "8.1.0",
     "js-gardener": "3.0.3",
     "node-tdd": "3.0.4",
     "nyc": "15.1.0",
-    "semantic-release": "17.4.2",
+    "semantic-release": "17.4.3",
     "tplink-smarthome-simulator": "2.0.0"
   },
   "licenses": [
@@ -113,10 +113,11 @@
     "node": ">= 12"
   },
   "dependencies": {
+    "date-fns-timezone": "0.1.4",
     "joi-strict": "2.0.0",
-    "object-scan": "14.0.0",
+    "object-scan": "16.0.2",
     "smart-fs": "2.0.2",
     "tplink-smarthome-api": "3.3.0",
-    "yargs": "16.2.0"
+    "yargs": "17.0.1"
   }
 }
