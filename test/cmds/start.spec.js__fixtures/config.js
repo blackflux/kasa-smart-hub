@@ -12,5 +12,6 @@ module.exports = {
     __default: 12 * 60 * 60
   },
   on: {},
+  off: {},
   timezone: 'America/Vancouver'
 };

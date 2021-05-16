@@ -17,12 +17,13 @@ module.exports = Joi.object().keys({
   logFile: Joi.string(),
   links: Joi.object().pattern(
     Joi.string(),
-    Joi.array().items(Joi.string()).unique().min(1)
+    Joi.array().items(Joi.string()).unique().min(2)
   ),
   timer: Joi.object()
     .keys({ __default: Joi.number().integer().min(0) })
     .unknown(true)
     .pattern(Joi.string(), timerSchema),
   on: Joi.object().unknown(true).pattern(Joi.string(), times),
+  off: Joi.object().unknown(true).pattern(Joi.string(), times),
   timezone: Joi.string()
 });

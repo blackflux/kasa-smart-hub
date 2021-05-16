@@ -3,7 +3,7 @@ const { Client } = require('tplink-smarthome-api');
 const configSchema = require('../resources/config-schema');
 const computeLinks = require('../util/compute-links');
 const secondsToHumansReadable = require('../util/seconds-to-human-readable');
-const secondsUntilNextTime = require('../util/seconds-until-next-time');
+const computeDelay = require('../util/compute-delay');
 const onlyOnce = require('../util/only-once');
 const ForEach = require('../util/for-each');
 const Log = require('../util/log');
@@ -21,13 +21,7 @@ module.exports = (config_) => {
   const forEach = ForEach(client);
 
   const updateDeviceTimer = async (device, state) => onlyOnce(`update-timer: ${device.alias}`, async () => {
-    const delay = (() => {
-      if (state === true) {
-        // eslint-disable-next-line no-underscore-dangle
-        return device.alias in config.timer ? config.timer[device.alias] : config.timer.__default;
-      }
-      return device.alias in config.on ? secondsUntilNextTime(config.on[device.alias], config.timezone) : 0;
-    })();
+    const delay = computeDelay(device.alias, state, config);
     if (delay === 0) {
       return;
     }
