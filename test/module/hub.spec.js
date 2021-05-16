@@ -170,7 +170,7 @@ describe('Testing Hub', {
         rule_list: [
           {
             id: '59BE5F3518239ACBC9E595F1955AC692',
-            enable: 0,
+            enable: 1,
             name: 'timer',
             delay: 10,
             act: 0,
