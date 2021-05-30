@@ -29,7 +29,7 @@ module.exports = (config_) => {
     if (rules.err_code !== 0) {
       return;
     }
-    if (rules.rule_list.some((r) => r.enable === 1 && r.remain <= delay)) {
+    if (rules.rule_list.some((r) => r.enable === 1 && (r.remain - delay) < 10)) {
       return;
     }
     const newState = await device.getPowerState();
