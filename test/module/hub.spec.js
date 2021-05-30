@@ -184,6 +184,14 @@ describe('Testing Hub', {
     { on: { 'Mock HS200-A': ['21:00'] } }
   ));
 
+  it('Testing Large Delay ignored', () => execute(
+    [],
+    async (d1) => {
+      await d1.setPowerState(false);
+    },
+    { on: { 'Mock HS200-A': ['We 21:00'] } }
+  ));
+
   it('Testing Timer Rule, Device already disabled', () => execute(
     ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
     async (d1) => {
