@@ -39,6 +39,4 @@ describe('Testing seconds-until-next-time.js', {
     expect(secondsUntilNextTime(['Sa 21:40'], 'UTC')).to.equal(518459);
     expect(secondsUntilNextTime(['Su 21:40'], 'UTC')).to.equal(59);
   });
-
-
 });
