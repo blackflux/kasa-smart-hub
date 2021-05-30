@@ -18,5 +18,5 @@ module.exports = (alias, state, config) => {
       delay = secondsUntilNextTime(config.on[alias], config.timezone);
     }
   }
-  return delay;
+  return delay >= 24 * 60 * 60 ? 0 : delay;
 };
