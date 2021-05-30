@@ -60,7 +60,7 @@ module.exports = {
     'Bathroom Fan': 60 * 60 // switch off after one hour
   },
   on: {
-    'Plant Light': ['21:00'] // switch on every day at 9pm
+    'Plant Light': ['We 21:00'] // switch on every Wednesday at 9pm
   },
   off: {
     TV: ['02:00'] // switch off every day at 2am
