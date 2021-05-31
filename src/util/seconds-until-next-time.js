@@ -1,6 +1,16 @@
 const { tz } = require('moment-timezone');
 const { time: timeRegex } = require('../resources/regex');
 
+const dayOfWeekMap = {
+  Su: 0,
+  Mo: 1,
+  Tu: 2,
+  We: 3,
+  Th: 4,
+  Fr: 5,
+  Sa: 6
+};
+
 const formatAtTimezone = (date, fmt, timezone) => tz(date, timezone).format(fmt);
 
 const getUntilInSeconds = (currentDateObj, time, timezone) => {
@@ -14,13 +24,13 @@ const getUntilInSeconds = (currentDateObj, time, timezone) => {
 
   const startDate = new Date(dateStr);
   if (startMinute <= nowMinute) {
-    startDate.setDate(startDate.getDate() + 1);
+    startDate.setUTCDate(startDate.getUTCDate() + 1);
   }
   while (
     typeof weekday === 'string'
-    && formatAtTimezone(startDate, 'dd', timezone) !== weekday
+    && startDate.getUTCDay() !== dayOfWeekMap[weekday]
   ) {
-    startDate.setDate(startDate.getDate() + 1);
+    startDate.setUTCDate(startDate.getUTCDate() + 1);
   }
 
   const nowTime = formatAtTimezone(`${dateStr}T${hourStr}:${minuteStr}:${secondStr}`, 'X', timezone);
