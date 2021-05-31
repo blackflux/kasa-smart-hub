@@ -8,7 +8,10 @@ const hub = Hub({
   links: {},
   timer: {
     __default: 0
-  }
+  },
+  on: {},
+  off: {},
+  timezone: 'America/Vancouver'
 });
 
 if (require.main === module) {
