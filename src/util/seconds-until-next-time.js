@@ -1,4 +1,4 @@
-const { tz } = require('moment-timezone');
+const { utcToZonedTime, format } = require('date-fns-tz');
 const { time: timeRegex } = require('../resources/regex');
 
 const dayOfWeekMap = {
@@ -11,7 +11,7 @@ const dayOfWeekMap = {
   Sa: 6
 };
 
-const formatAtTimezone = (date, fmt, timezone) => tz(date, timezone).format(fmt);
+const formatAtTimezone = (date, fmt, timeZone) => format(utcToZonedTime(date, timeZone), fmt, { timeZone });
 
 const getUntilInSeconds = (currentDateObj, time, timezone) => {
   const { weekday, hours, minutes } = timeRegex.exec(time).groups;
@@ -19,7 +19,7 @@ const getUntilInSeconds = (currentDateObj, time, timezone) => {
 
   const [
     dateStr, hourStr, minuteStr, secondStr
-  ] = formatAtTimezone(currentDateObj, 'YYYY-MM-DD HH mm ss', timezone).split(' ');
+  ] = formatAtTimezone(currentDateObj, 'yyyy-MM-dd HH mm ss', timezone).split(' ');
   const nowMinute = parseInt(hourStr, 10) * 60 + parseInt(minuteStr, 10);
 
   const startDate = new Date(dateStr);
@@ -33,8 +33,8 @@ const getUntilInSeconds = (currentDateObj, time, timezone) => {
     startDate.setUTCDate(startDate.getUTCDate() + 1);
   }
 
-  const nowTime = formatAtTimezone(`${dateStr}T${hourStr}:${minuteStr}:${secondStr}`, 'X', timezone);
-  const startTime = formatAtTimezone(`${startDate.toISOString().slice(0, 10)}T${hours}:${minutes}:00`, 'X', timezone);
+  const nowTime = formatAtTimezone(`${dateStr}T${hourStr}:${minuteStr}:${secondStr}`, 't', timezone);
+  const startTime = formatAtTimezone(`${startDate.toISOString().slice(0, 10)}T${hours}:${minutes}:00`, 't', timezone);
   return Math.max(parseInt(startTime, 10) - parseInt(nowTime, 10), 0);
 };
 

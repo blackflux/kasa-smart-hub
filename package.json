@@ -113,8 +113,9 @@
     "node": ">= 12"
   },
   "dependencies": {
+    "date-fns": "2.22.1",
+    "date-fns-tz": "1.1.4",
     "joi-strict": "2.0.0",
-    "moment-timezone": "0.5.33",
     "object-scan": "16.0.2",
     "smart-fs": "2.0.2",
     "tplink-smarthome-api": "3.3.0",
