@@ -49,10 +49,10 @@ describe('Testing apply.js', {
       a: () => {
         throw new Error();
       }
-    }, 'a');
+    }, 'a', 1, {});
     expect(result).to.equal(undefined);
     expect(logs).to.deep.equal([
-      '[2021-03-26T03:05:31.471Z] [ERROR]: Permanent Retry Error: Device.a()'
+      '[2021-03-26T03:05:31.471Z] [ERROR]: Permanent Retry Error: Device.a(1, [object Object])'
     ]);
     expect(myCode).to.deep.equal(1);
     process.exit = processExit;

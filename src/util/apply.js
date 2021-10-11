@@ -14,7 +14,7 @@ module.exports = (log, timeout = 1000) => async (device, cmd, ...args) => {
   }
   log(
     'error',
-    `Permanent Retry Error: ${device.alias}.${cmd}(${args.map((arg) => JSON.stringify(arg)).join(', ')})`
+    `Permanent Retry Error: ${device.alias}.${cmd}(${args.map((arg) => String(arg)).join(', ')})`
   );
   return process.exit(1);
 };
