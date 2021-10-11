@@ -34,7 +34,7 @@ describe('Testing Hub', {
       await wait(50);
       hub.stop();
       expect(recorder.get()).to.deep.equal(expected);
-      expect(fs.existsSync(logFile) ? fs.smartRead(logFile) : []).to.deep.equal(expected);
+      expect(fs.smartRead(logFile)).to.deep.equal(expected);
     };
     await Mocker.spawn({
       model: 'hs200',
