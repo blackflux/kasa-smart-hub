@@ -1,3 +1,5 @@
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 module.exports = (log, timeout = 1000) => async (device, cmd, ...args) => {
   const path = cmd.split('.');
   const fn = path.pop();
@@ -6,7 +8,6 @@ module.exports = (log, timeout = 1000) => async (device, cmd, ...args) => {
       // eslint-disable-next-line no-await-in-loop
       return await path.reduce((prev, cur) => prev[cur], device)[fn](...args);
     } catch (e) {
-      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
       // eslint-disable-next-line no-await-in-loop
       await delay(timeout);
     }
