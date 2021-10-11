@@ -34,7 +34,7 @@ describe('Testing Hub', {
       await wait(50);
       hub.stop();
       expect(recorder.get()).to.deep.equal(expected);
-      expect(fs.existsSync(logFile) ? fs.smartRead(logFile) : []).to.deep.equal(expected);
+      expect(fs.smartRead(logFile)).to.deep.equal(expected);
     };
     await Mocker.spawn({
       model: 'hs200',
@@ -60,15 +60,23 @@ describe('Testing Hub', {
   });
 
   it('Testing Device Switched On', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
-      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 12:00:00'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 12:00:00'
+    ],
     (d1) => d1.setPowerState(true)
   ));
 
   it('Testing Device Switched On, and then Off', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
       '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 12:00:00',
-      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ off'],
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ off'
+    ],
     async (d1) => {
       await d1.setPowerState(true);
       await wait(50);
@@ -77,30 +85,46 @@ describe('Testing Hub', {
   ));
 
   it('Testing Device Switched On, custom timer', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
-      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 00:10:00'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 00:10:00'
+    ],
     (d1) => d1.setPowerState(true),
     { timer: { __default: 12 * 60 * 60, 'Mock HS200-A': 10 * 60 } }
   ));
 
   it('Testing Device Switched Off, custom on time', () => execute(
-    ['[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - ON in 00:20:59'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - ON in 00:20:59'
+    ],
     (d1) => d1.setPowerState(false),
     { on: { 'Mock HS200-A': ['22:00'] }, timezone: 'UTC' }
   ));
 
   it('Testing Device Switched On, default timer of zero', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'
+    ],
     (d1) => d1.setPowerState(true),
     { timer: { __default: 0 } }
   ));
 
   it('Testing Linked Devices', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
       '[2021-03-28T21:39:01.897Z]: Link Triggered: Mock HS200-A -> Mock HS200-B @ on',
       '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-B @ on',
       '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 12:00:00',
-      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-B - OFF in 12:00:00'],
+      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-B - OFF in 12:00:00'
+    ],
     (d1) => d1.setPowerState(true),
     {
       links: {
@@ -110,14 +134,18 @@ describe('Testing Hub', {
   ));
 
   it('Testing Linked Devices, and Off', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
       '[2021-03-28T21:39:01.897Z]: Link Triggered: Mock HS200-A -> Mock HS200-B @ on',
       '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-B @ on',
       '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 12:00:00',
       '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-B - OFF in 12:00:00',
       '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-B @ off',
       '[2021-03-28T21:39:01.897Z]: Link Triggered: Mock HS200-B -> Mock HS200-A @ off',
-      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ off'],
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ off'
+    ],
     async (d1, d2) => {
       await d1.setPowerState(true);
       await wait(50);
@@ -131,7 +159,11 @@ describe('Testing Hub', {
   ));
 
   it('Testing Timer Rule, Api Error', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'
+    ],
     async (d1) => {
       // eslint-disable-next-line no-param-reassign
       d1.timer.getRules = () => ({
@@ -142,7 +174,11 @@ describe('Testing Hub', {
   ));
 
   it('Testing Timer Rule, Rule already Present (Timer)', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'
+    ],
     async (d1) => {
       // eslint-disable-next-line no-param-reassign
       d1.timer.getRules = () => ({
@@ -163,7 +199,10 @@ describe('Testing Hub', {
   ));
 
   it('Testing Timer Rule, Rule already Present (On Time)', () => execute(
-    [],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B'
+    ],
     async (d1) => {
       // eslint-disable-next-line no-param-reassign
       d1.timer.getRules = () => ({
@@ -185,7 +224,10 @@ describe('Testing Hub', {
   ));
 
   it('Testing Large Delay ignored', () => execute(
-    [],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B'
+    ],
     async (d1) => {
       await d1.setPowerState(false);
     },
@@ -193,7 +235,11 @@ describe('Testing Hub', {
   ));
 
   it('Testing Timer Rule, Device already disabled', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'
+    ],
     async (d1) => {
       // eslint-disable-next-line no-param-reassign
       d1.getPowerState = () => false;
