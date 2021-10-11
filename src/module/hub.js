@@ -7,6 +7,7 @@ const computeDelay = require('../util/compute-delay');
 const onlyOnce = require('../util/only-once');
 const ForEach = require('../util/for-each');
 const Log = require('../util/log');
+const Apply = require('../util/apply');
 
 module.exports = (config_) => {
   const config = {
@@ -19,23 +20,24 @@ module.exports = (config_) => {
   const log = Log(config);
   const client = new Client();
   const forEach = ForEach(client);
+  const apply = Apply(log);
 
   const updateDeviceTimer = async (device, state) => onlyOnce(`update-timer: ${device.alias}`, async () => {
     const delay = computeDelay(device.alias, state, config);
     if (delay === 0) {
       return;
     }
-    const rules = await device.timer.getRules();
+    const rules = await apply(device, 'timer.getRules');
     if (rules.err_code !== 0) {
       return;
     }
     if (rules.rule_list.some((r) => r.enable === 1 && (r.remain - delay) < 10)) {
       return;
     }
-    const newState = await device.getPowerState();
+    const newState = await apply(device, 'getPowerState');
     if (newState === state) {
       log(`Timer Started: ${device.alias} - ${state ? 'OFF' : 'ON'} in ${secondsToHumansReadable(delay)}`);
-      await device.timer.addRule({ delay, powerState: !state });
+      await apply(device, 'timer.addRule', { delay, powerState: !state });
     }
   });
 
@@ -49,7 +51,7 @@ module.exports = (config_) => {
           log(`Link Triggered: ${device.alias} -> ${[...group].join(', ')} @ ${state ? 'on' : 'off'}`);
           await forEach(
             (d) => d.status === 'online' && group.has(d.alias),
-            (d) => d.setPowerState(state)
+            (d) => apply(d, 'setPowerState', state)
           );
         }
       );
@@ -73,15 +75,18 @@ module.exports = (config_) => {
 
   return {
     start: () => {
-      client.startDiscovery({
+      const timeout = 400;
+      const discovery = client.startDiscovery({
         broadcast: '192.168.0.255',
         port: 56888,
         breakoutChildren: true,
         discoveryInterval: 10000,
         discoveryTimeout: 0,
         offlineTolerance: 3,
+        deviceOptions: { defaultSendOptions: { timeout } },
         ...config.discoveryConfig
       });
+      discovery.defaultSendOptions.timeout = timeout;
     },
     stop: () => {
       [...client.devices.values()].forEach((d) => {
