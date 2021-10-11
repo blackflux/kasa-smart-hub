@@ -199,7 +199,10 @@ describe('Testing Hub', {
   ));
 
   it('Testing Timer Rule, Rule already Present (On Time)', () => execute(
-    [],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B'
+    ],
     async (d1) => {
       // eslint-disable-next-line no-param-reassign
       d1.timer.getRules = () => ({
@@ -221,7 +224,10 @@ describe('Testing Hub', {
   ));
 
   it('Testing Large Delay ignored', () => execute(
-    [],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B'
+    ],
     async (d1) => {
       await d1.setPowerState(false);
     },
@@ -229,7 +235,11 @@ describe('Testing Hub', {
   ));
 
   it('Testing Timer Rule, Device already disabled', () => execute(
-    ['[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'],
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on'
+    ],
     async (d1) => {
       // eslint-disable-next-line no-param-reassign
       d1.getPowerState = () => false;
