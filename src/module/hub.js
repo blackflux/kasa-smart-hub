@@ -61,6 +61,7 @@ module.exports = (config_) => {
   };
 
   client.on('device-new', (device) => {
+    log(`New Device: ${device.alias}`);
     device.addListener('power-on', () => onDevicePowerStateChange(device, true));
     device.addListener('power-off', () => onDevicePowerStateChange(device, false));
     device.addListener('power-update', async (state) => onDeviceSync(device, state));
