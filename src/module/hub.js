@@ -75,18 +75,15 @@ module.exports = (config_) => {
 
   return {
     start: () => {
-      const timeout = 400;
-      const discovery = client.startDiscovery({
+      client.startDiscovery({
         broadcast: '192.168.0.255',
         port: 56888,
         breakoutChildren: true,
         discoveryInterval: 10000,
         discoveryTimeout: 0,
         offlineTolerance: 3,
-        deviceOptions: { defaultSendOptions: { timeout } },
         ...config.discoveryConfig
       });
-      discovery.defaultSendOptions.timeout = timeout;
     },
     stop: () => {
       [...client.devices.values()].forEach((d) => {
