@@ -1,7 +1,7 @@
 const Joi = require('joi-strict');
 const { time } = require('./regex');
 
-const timerSchema = Joi.number().integer().min(60);
+const timerSchema = Joi.number().integer().min(0);
 const times = Joi.array().items(Joi.string().regex(time)).unique().min(1);
 
 module.exports = Joi.object().keys({
