@@ -1,6 +1,8 @@
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms) => new Promise((resolve) => {
+  setTimeout(resolve, ms);
+});
 
-module.exports = (log, timeout = 1000) => async (device, cmd, ...args) => {
+export default (log, timeout = 1000) => async (device, cmd, ...args) => {
   const path = cmd.split('.');
   const fn = path.pop();
   for (let i = 0; i < 10; i += 1) {

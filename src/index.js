@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-const yargs = require('yargs');
+import Yargs from 'yargs';
+import start from './cmds/start.js';
 
-module.exports = yargs
-  .commandDir('cmds')
+export default Yargs(process.argv)
+  .command(start, 'start')
   .demandCommand()
   .help()
   .argv;

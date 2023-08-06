@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const onlyOnce = require('../../src/util/only-once');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import onlyOnce from '../../src/util/only-once.js';
 
 describe('Testing only-once.js', () => {
   it('Testing executed only once', async () => {

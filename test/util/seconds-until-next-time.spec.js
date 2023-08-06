@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const secondsUntilNextTime = require('../../src/util/seconds-until-next-time');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import secondsUntilNextTime from '../../src/util/seconds-until-next-time.js';
 
 describe('Testing seconds-until-next-time.js', {
   timestamp: '2021-03-28T21:39:01.897Z'

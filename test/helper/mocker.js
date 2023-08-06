@@ -1,8 +1,8 @@
-const { Device, UdpServer } = require('tplink-smarthome-simulator');
+import { Device, UdpServer } from 'tplink-smarthome-simulator';
 
 const devices = [];
 
-module.exports = {
+export default {
   start: async () => {
     await UdpServer.start();
   },

@@ -8,7 +8,7 @@
   "rules": {
     "mocha/no-mocha-arrows": 0,
     "mocha/no-hooks-for-single-case": 0,
-    "@blackflux/rules/istanbul-prevent-ignore": 1,
+    "@blackflux/rules/c8-prevent-ignore": 1,
     "@blackflux/rules/kebab-case-enforce": 1,
     "@blackflux/rules/prevent-typeof-object": 1,
     "import/no-useless-path-segments": [2, {"commonjs": true}],
@@ -37,10 +37,13 @@
           "balanced": true
         }
       }
-    ]
+    ],
+    "import/extensions": [2, "always"],
+    "import/prefer-default-export": 0
   },
   "env": {"es6": true, "node": true, "mocha": true},
   "globals": {},
   "plugins": ["json", "mocha", "@blackflux/rules"],
-  "parser": "babel-eslint"
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {"requireConfigFile": false}
 }

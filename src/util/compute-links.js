@@ -1,4 +1,4 @@
-const objectScan = require('object-scan');
+import objectScan from 'object-scan';
 
 const scanner = objectScan(['links.*[*]'], {
   filterFn: ({ value, parent, context }) => {
@@ -11,4 +11,4 @@ const scanner = objectScan(['links.*[*]'], {
   }
 });
 
-module.exports = (config) => scanner(config, {});
+export default (config) => scanner(config, {});

@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const index = require('../src/index');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import index from '../src/index.js';
 
 describe('Testing Index', () => {
   it('Testing Exported', () => {

@@ -1,4 +1,4 @@
-module.exports = (totalSeconds) => {
+export default (totalSeconds) => {
   const hours = Math.floor(totalSeconds / 3600);
   const remainingSeconds = totalSeconds % 3600;
   const minutes = Math.floor(remainingSeconds / 60);
