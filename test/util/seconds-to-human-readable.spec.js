@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const secondsToHumanReadable = require('../../src/util/seconds-to-human-readable');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import secondsToHumanReadable from '../../src/util/seconds-to-human-readable.js';
 
 describe('Testing seconds-to-human-readable.js', () => {
   it('Testing zero', () => {

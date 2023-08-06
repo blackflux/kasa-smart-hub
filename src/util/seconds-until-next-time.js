@@ -1,5 +1,5 @@
-const { utcToZonedTime, format } = require('date-fns-tz');
-const { time: timeRegex } = require('../resources/regex');
+import { utcToZonedTime, format } from 'date-fns-tz';
+import { time as timeRegex } from '../resources/regex.js';
 
 const dayOfWeekMap = {
   Su: 0,
@@ -38,7 +38,7 @@ const getUntilInSeconds = (currentDateObj, time, timezone) => {
   return Math.max(parseInt(startTime, 10) - parseInt(nowTime, 10), 0);
 };
 
-module.exports = (times, timezone) => {
+export default (times, timezone) => {
   let result = Number.MAX_SAFE_INTEGER;
   const currentDateObj = new Date();
   times.forEach((time) => {

@@ -1,6 +1,6 @@
-const fs = require('fs');
+import fs from 'fs';
 
-module.exports = (config) => (...args) => {
+export default (config) => (...args) => {
   const log = [
     `[${new Date().toISOString()}]`,
     `${args.length === 1 ? '' : ` [${args[0].toUpperCase()}]`}: `,

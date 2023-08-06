@@ -1,16 +1,18 @@
-const fs = require('smart-fs');
-const Hub = require('../module/hub');
+import fs from 'smart-fs';
+import Hub from '../module/hub.js';
 
-exports.command = 'start [configFile]';
-exports.desc = 'Start server.';
-exports.builder = {};
-exports.handler = async ({ configFile = 'config' }) => {
-  const filepath = fs.guessFile(configFile);
-  if (!fs.existsSync(filepath)) {
-    throw new Error('Configuration file not found...');
+export default {
+  command: 'start [configFile]',
+  desc: 'Start server.',
+  builder: {},
+  handler: async ({ configFile = 'config' }) => {
+    const filepath = fs.guessFile(configFile);
+    if (!fs.existsSync(filepath)) {
+      throw new Error('Configuration file not found...');
+    }
+    const config = fs.smartRead(filepath);
+    const hub = Hub(config);
+    await hub.start();
+    return hub;
   }
-  const config = fs.smartRead(filepath);
-  const hub = Hub(config);
-  await hub.start();
-  return hub;
 };

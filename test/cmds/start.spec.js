@@ -1,9 +1,9 @@
-const fs = require('smart-fs');
-const path = require('path');
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const start = require('../../src/cmds/start');
-const Mocker = require('../helper/mocker');
+import path from 'path';
+import fs from 'smart-fs';
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import start from '../../src/cmds/start.js';
+import Mocker from '../helper/mocker.js';
 
 describe('Testing `start [configFile]`', { useTmpDir: true }, () => {
   before(async () => {
@@ -21,7 +21,8 @@ describe('Testing `start [configFile]`', { useTmpDir: true }, () => {
 
   it('Testing spawning server, default parameter', async ({ dir, fixture }) => {
     const configFile = path.join(dir, 'config.json');
-    fs.smartWrite(configFile, fixture('config'));
+    const config = await fixture('config');
+    fs.smartWrite(configFile, config);
     const cwd = process.cwd();
     process.chdir(dir);
     const hub = await start.handler({});

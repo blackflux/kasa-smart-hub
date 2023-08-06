@@ -1,11 +1,12 @@
-const path = require('path');
+import path from 'path';
+import fs from 'smart-fs';
 
-module.exports = {
+export default {
   discoveryConfig: {
     broadcast: '255.255.255.255',
     port: 1234
   },
-  logFile: path.join(__dirname, 'kasa-logs.txt'),
+  logFile: path.join(fs.dirname(import.meta.url), 'kasa-logs.txt'),
   links: {},
   timer: {
     __default: 12 * 60 * 60

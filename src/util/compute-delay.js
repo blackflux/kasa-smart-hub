@@ -1,7 +1,7 @@
-const assert = require('assert');
-const secondsUntilNextTime = require('./seconds-until-next-time');
+import assert from 'assert';
+import secondsUntilNextTime from './seconds-until-next-time.js';
 
-module.exports = (alias, state, config) => {
+export default (alias, state, config) => {
   let delay = 0;
   if (state === true) {
     // eslint-disable-next-line no-underscore-dangle

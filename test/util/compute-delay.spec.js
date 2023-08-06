@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const computeDelay = require('../../src/util/compute-delay');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import computeDelay from '../../src/util/compute-delay.js';
 
 describe('Testing compute-delay.js', {
   timestamp: '2021-03-28T21:39:01.897Z'
