@@ -80,6 +80,7 @@ export default (config_) => {
       client.startDiscovery({
         broadcast: '192.168.0.255',
         port: 56888,
+        devicesUseDiscoveryPort: true,
         breakoutChildren: true,
         discoveryInterval: 10000,
         discoveryTimeout: 0,

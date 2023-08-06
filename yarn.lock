@@ -1079,10 +1079,10 @@ color-support@^1.1.3:
   resolved "https://registry.yarnpkg.com/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
 
-commander@^7.1.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
-  integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
+commander@^9.0.0:
+  version "9.5.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-9.5.0.tgz#bc08d1eb5cedf7ccb797a96199d41c7bc3e60d30"
+  integrity sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -2819,7 +2819,7 @@ log-symbols@4.1.0, log-symbols@^4.1.0:
     chalk "^4.1.0"
     is-unicode-supported "^0.1.0"
 
-loglevel@^1.7.1:
+loglevel@^1.8.0:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.1.tgz#5c621f83d5b48c54ae93b6156353f555963377b4"
   integrity sha512-tCRIJM51SHjAayKwC+QAg8hT8vg6z7GSgLJKGvzuPb1Wc+hLzqtuVLxp6/HzSPOozuK+8ErAhy7U/sVzw8Dgfg==
@@ -4284,19 +4284,19 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-tplink-smarthome-api@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/tplink-smarthome-api/-/tplink-smarthome-api-3.3.0.tgz#3d7598a568a29c7f6e55786fec3cf7a31ac8a815"
-  integrity sha512-AO8wmu/kRY2eB848YhaBKleBdQYi+UqJBJPaoj4dDTh56v1LDmBv4SNGEUmW9sLDqrRi5J+UV9Qky472KItD2w==
+tplink-smarthome-api@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/tplink-smarthome-api/-/tplink-smarthome-api-4.2.0.tgz#0d87bca34c8c2cb0a6642ae89b2d7c9541cb0a70"
+  integrity sha512-hCYXLshcRy+OiMvnSPDXTLC62SmwA9wdtmBN+uBHdgjJqIQi6v6QpNMcvCiGMWpFdyP3KS+XmI73R0mlblS6/Q==
   dependencies:
-    commander "^7.1.0"
+    commander "^9.0.0"
     lodash.castarray "^4.4.0"
     lodash.clone "^4.5.0"
     lodash.defaultto "^4.14.0"
     lodash.get "^4.4.2"
     lodash.groupby "^4.6.0"
     lodash.isequal "^4.5.0"
-    loglevel "^1.7.1"
+    loglevel "^1.8.0"
     promise-queue "^2.2.5"
     tplink-smarthome-crypto "^3.0.0"
 

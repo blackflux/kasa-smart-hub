@@ -84,7 +84,7 @@
     "joi-strict": "3.0.1",
     "object-scan": "19.0.1",
     "smart-fs": "4.0.1",
-    "tplink-smarthome-api": "3.3.0",
+    "tplink-smarthome-api": "4.2.0",
     "yargs": "17.7.2"
   }
 }
