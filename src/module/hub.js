@@ -1,15 +1,17 @@
-const Joi = require('joi-strict');
-const { Client } = require('tplink-smarthome-api');
-const configSchema = require('../resources/config-schema');
-const computeLinks = require('../util/compute-links');
-const secondsToHumansReadable = require('../util/seconds-to-human-readable');
-const computeDelay = require('../util/compute-delay');
-const onlyOnce = require('../util/only-once');
-const ForEach = require('../util/for-each');
-const Log = require('../util/log');
-const Apply = require('../util/apply');
+import Joi from 'joi-strict';
+import tplink from 'tplink-smarthome-api';
+import configSchema from '../resources/config-schema.js';
+import computeLinks from '../util/compute-links.js';
+import secondsToHumansReadable from '../util/seconds-to-human-readable.js';
+import computeDelay from '../util/compute-delay.js';
+import onlyOnce from '../util/only-once.js';
+import ForEach from '../util/for-each.js';
+import Log from '../util/log.js';
+import Apply from '../util/apply.js';
 
-module.exports = (config_) => {
+const { Client } = tplink;
+
+export default (config_) => {
   const config = {
     discoveryConfig: {},
     ...config_

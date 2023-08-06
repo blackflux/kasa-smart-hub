@@ -1,8 +1,8 @@
-const fs = require('smart-fs');
-const path = require('path');
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const Log = require('../../src/util/log');
+import path from 'path';
+import fs from 'smart-fs';
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import Log from '../../src/util/log.js';
 
 describe('Testing log.js', {
   timestamp: '2021-03-26T03:05:31.471Z',

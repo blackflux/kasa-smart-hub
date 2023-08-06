@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const computeLinks = require('../../src/util/compute-links');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import computeLinks from '../../src/util/compute-links.js';
 
 describe('Testing compute-links.js', () => {
   it('Testing Simple', () => {

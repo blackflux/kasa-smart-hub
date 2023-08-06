@@ -1,10 +1,9 @@
-// eslint-disable-next-line @blackflux/rules/istanbul-prevent-ignore
-/* istanbul ignore file */
-const path = require('path');
-const Hub = require('../src/module/hub');
+import path from 'path';
+import fs from 'smart-fs';
+import Hub from '../src/module/hub.js';
 
 const hub = Hub({
-  logFile: path.join(__dirname, 'kasa-logs.txt'),
+  logFile: path.join(fs.dirname(import.meta.url), 'kasa-logs.txt'),
   links: {},
   timer: {
     __default: 0
@@ -14,6 +13,6 @@ const hub = Hub({
   timezone: 'America/Vancouver'
 });
 
-if (require.main === module) {
+if (process.argv[1] === fs.filename(import.meta.url)) {
   hub.start();
 }

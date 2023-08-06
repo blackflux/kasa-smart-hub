@@ -1,10 +1,10 @@
-const Joi = require('joi-strict');
-const { time } = require('./regex');
+import Joi from 'joi-strict';
+import { time } from './regex.js';
 
 const timerSchema = Joi.number().integer().min(0);
 const times = Joi.array().items(Joi.string().regex(time)).unique().min(1);
 
-module.exports = Joi.object().keys({
+export default Joi.object().keys({
   discoveryConfig: Joi.object().keys({
     broadcast: Joi.string().ip().optional(),
     // eslint-disable-next-line newline-per-chained-call

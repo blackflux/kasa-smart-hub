@@ -1,8 +1,8 @@
-const path = require('path');
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const Log = require('../../src/util/log');
-const Apply = require('../../src/util/apply');
+import path from 'path';
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import Log from '../../src/util/log.js';
+import Apply from '../../src/util/apply.js';
 
 describe('Testing apply.js', {
   timestamp: '2021-03-26T03:05:31.471Z',

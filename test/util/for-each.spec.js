@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const ForEach = require('../../src/util/for-each');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import ForEach from '../../src/util/for-each.js';
 
 describe('Testing for-each.js', () => {
   let forEach;

@@ -44,10 +44,11 @@ Default fallback timer. Can be set to zero to disable.
 ## Config Example
 
 ```js
-const path = require('path');
+import path from 'path';
+import fs from 'smart-fs';
 
-module.exports = {
-  logFile: path.join(__dirname, 'kasa-logs.txt'),
+export default {
+  logFile: path.join(fs.dirname(import.meta.url), 'kasa-logs.txt'),
   links: {
     'kitchen-lights': [
       // when either of these is switched on / off the other one will also switch on / off

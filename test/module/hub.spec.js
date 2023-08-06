@@ -1,10 +1,10 @@
-const fs = require('smart-fs');
-const path = require('path');
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const wait = require('../helper/wait');
-const Hub = require('../../src/module/hub');
-const Mocker = require('../helper/mocker');
+import path from 'path';
+import fs from 'smart-fs';
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import wait from '../helper/wait.js';
+import Hub from '../../src/module/hub.js';
+import Mocker from '../helper/mocker.js';
 
 describe('Testing Hub', {
   useTmpDir: true,
@@ -21,10 +21,11 @@ describe('Testing Hub', {
 
   let execute;
   beforeEach(async ({ fixture, dir, recorder }) => {
+    const config = await fixture('config');
     execute = async (expected, cb, cfg = {}) => {
       const logFile = path.join(dir, 'kasa-logs.txt');
       const hub = Hub({
-        ...fixture('config'),
+        ...config,
         logFile,
         ...cfg
       });
@@ -50,8 +51,9 @@ describe('Testing Hub', {
     await Mocker.clear();
   });
 
-  it('Testing Init', ({ fixture }) => {
-    const hub = Hub(fixture('config'));
+  it('Testing Init', async ({ fixture }) => {
+    const config = await fixture('config');
+    const hub = Hub(config);
     expect(Object.fromEntries(Object.entries(hub).map(([k, v]) => [k, typeof v]))).to.deep.equal({
       start: 'function',
       stop: 'function',

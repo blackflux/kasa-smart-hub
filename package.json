@@ -1,5 +1,6 @@
 {
   "name": "kasa-smart-hub",
+  "type": "module",
   "version": "0.0.0-development",
   "main": "lib/index.js",
   "preferGlobal": true,
@@ -13,26 +14,22 @@
   "author": "Lukas Siemon",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "7.15.7",
-    "@babel/core": "7.15.8",
-    "@babel/register": "7.15.3",
-    "@blackflux/eslint-plugin-rules": "2.0.4",
-    "@blackflux/robo-config-plugin": "5.3.5",
-    "babel-eslint": "10.1.0",
-    "babel-preset-latest-node": "5.5.1",
-    "chai": "4.3.4",
-    "coveralls": "3.1.1",
-    "eslint": "7.32.0",
-    "eslint-config-airbnb-base": "14.2.1",
-    "eslint-plugin-import": "2.24.2",
+    "@babel/core": "7.22.9",
+    "@babel/eslint-parser": "7.22.9",
+    "@babel/register": "7.22.5",
+    "@blackflux/eslint-plugin-rules": "2.1.0",
+    "@blackflux/robo-config-plugin": "9.1.10",
+    "c8": "8.0.1",
+    "chai": "4.3.7",
+    "eslint": "8.46.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.28.0",
     "eslint-plugin-json": "3.1.0",
-    "eslint-plugin-markdown": "2.2.1",
-    "eslint-plugin-mocha": "9.0.0",
-    "js-gardener": "3.0.3",
-    "node-tdd": "3.0.6",
-    "nyc": "15.1.0",
-    "semantic-release": "17.4.7",
-    "tplink-smarthome-simulator": "2.0.0"
+    "eslint-plugin-markdown": "3.0.1",
+    "eslint-plugin-mocha": "10.1.0",
+    "js-gardener": "5.0.2",
+    "node-tdd": "4.0.1",
+    "tplink-smarthome-simulator": "4.0.0"
   },
   "licenses": [
     {
@@ -55,44 +52,14 @@
     "actions",
     "smartactions"
   ],
-  "nyc": {
-    "exclude": [
-      "gardener.js",
-      "node_modules/*",
-      "coverage/*",
-      "lib/*"
-    ],
-    "tempDir": "./coverage/.nyc_output",
-    "report-dir": "./coverage",
-    "check-coverage": true,
-    "per-file": false,
-    "lines": 100,
-    "statements": 100,
-    "functions": 100,
-    "branches": 100,
-    "include": [
-      "**/*.js"
-    ],
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ],
-    "require": [
-      "@babel/register"
-    ],
-    "extension": [],
-    "cache": true,
-    "all": true,
-    "babel": true
-  },
   "files": [
     "lib"
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "npx babel src --out-dir lib --copy-files --include-dotfiles --config-file ./.babelrc",
+    "build": "cp -rf ./src ./lib",
     "build-clean": "yarn run clean && yarn run build",
-    "test-simple": "nyc mocha \"./test/**/*.spec.js\"",
+    "test-simple": "c8 mocha --experimental-loader=./test/hot.js \"./test/**/*.spec.js\"",
     "test": "yarn run clean && yarn run gardener && yarn run test-simple",
     "docker": "docker run --net host -u`id -u`:`id -g` -v $(pwd):/user/project -v ~/.aws:/user/.aws -v ~/.npmrc:/user/.npmrc -w /user/project -it --entrypoint /bin/bash",
     "u": "yarn upgrade --latest --force",
@@ -101,24 +68,23 @@
     "t": "yarn test",
     "ts": "yarn run test-simple",
     "tsv": "yarn run test-simple --verbose",
-    "coveralls": "node ./node_modules/coveralls/bin/coveralls.js < ./coverage/lcov.info",
     "semantic-release": "yarn run build-clean && npx semantic-release",
-    "gardener": "node gardener"
+    "gardener": "node gardener.js"
   },
   "homepage": "https://github.com/blackflux/kasa-smart-hub#readme",
   "bugs": {
     "url": "https://github.com/blackflux/kasa-smart-hub/issues"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 16"
   },
   "dependencies": {
-    "date-fns": "2.25.0",
-    "date-fns-tz": "1.1.6",
-    "joi-strict": "2.0.1",
-    "object-scan": "17.1.0",
-    "smart-fs": "2.0.3",
+    "date-fns": "2.30.0",
+    "date-fns-tz": "2.0.0",
+    "joi-strict": "3.0.1",
+    "object-scan": "19.0.1",
+    "smart-fs": "4.0.1",
     "tplink-smarthome-api": "3.3.0",
-    "yargs": "17.2.1"
+    "yargs": "17.7.2"
   }
 }

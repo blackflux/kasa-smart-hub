@@ -1,4 +1,4 @@
-module.exports = (client) => async (filterFn, cbFn) => {
+export default (client) => async (filterFn, cbFn) => {
   const devices = [...client.devices.values()]
     .filter((d) => filterFn(d));
   if (devices.length !== 0) {
