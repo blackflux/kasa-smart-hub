@@ -5,6 +5,7 @@
     "coverage/*",
     "lib/*",
     "test/hot.js",
+    "eslint.config.js",
     "test/runner.js"
   ],
   "temp-directory": "./coverage/.c8_output",

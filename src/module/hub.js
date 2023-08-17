@@ -1,5 +1,7 @@
+import assert from 'assert';
 import Joi from 'joi-strict';
 import tplink from 'tplink-smarthome-api';
+import axios from '@blackflux/axios';
 import configSchema from '../resources/config-schema.js';
 import computeLinks from '../util/compute-links.js';
 import secondsToHumansReadable from '../util/seconds-to-human-readable.js';
@@ -8,6 +10,10 @@ import onlyOnce from '../util/only-once.js';
 import ForEach from '../util/for-each.js';
 import Log from '../util/log.js';
 import Apply from '../util/apply.js';
+import aqiToColor from '../util/aqi-to-color.js';
+import sensorToAqi from '../util/sensor-to-aqi.js';
+import rgbToHsb from '../util/colors/rgb-to-hsb.js';
+import hexToRgb from '../util/colors/hex-to-rgb.js';
 
 const { Client } = tplink;
 
@@ -23,6 +29,42 @@ export default (config_) => {
   const client = new Client();
   const forEach = ForEach(client);
   const apply = Apply(log);
+
+  const updateDeviceColor = async (device, state) => {
+    const provider = config?.color?.[device.alias];
+    if (provider === undefined) {
+      return null;
+    }
+    let hex = '#76c9ff';
+    try {
+      const { source } = provider;
+      assert(source.name = 'purpleair');
+      const now = new Date() / 1000;
+      if (device.last_color_update && device.last_color_update + source.interval * 1000 > now) {
+        return null;
+      }
+      // eslint-disable-next-line no-param-reassign
+      device.last_color_update = now;
+      const { data } = await axios({
+        url: `https://api.purpleair.com/v1/sensors/${source.sensor}`,
+        method: 'GET',
+        headers: {
+          'X-API-Key': source.apiKey
+        }
+      });
+      const sensor = data?.sensor;
+      const aqi = await sensorToAqi(sensor);
+      hex = aqiToColor(aqi);
+    } catch (e) { /* ignored */ }
+    const [r, g, b] = hexToRgb(hex);
+    const [h, s, v] = rgbToHsb(r, g, b);
+    log('debug', `Color Update: ${hex}`);
+    return device.lighting.setLightState({
+      hue: h,
+      saturation: s,
+      brightness: v
+    });
+  };
 
   const updateDeviceTimer = async (device, state) => onlyOnce(`update-timer: ${device.alias}`, async () => {
     const delay = computeDelay(device.alias, state, config);
@@ -62,6 +104,7 @@ export default (config_) => {
 
   const onDeviceSync = async (device, state) => {
     await updateDeviceTimer(device, state);
+    await updateDeviceColor(device, state);
   };
 
   client.on('device-new', (device) => {
