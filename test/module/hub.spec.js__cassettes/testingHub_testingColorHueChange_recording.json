@@ -1,0 +1,17 @@
+[
+  {
+    "scope": "https://api.purpleair.com:443",
+    "method": "GET",
+    "path": "/v1/sensors/SENSOR_ID_HERE",
+    "body": "",
+    "status": 200,
+    "response": {
+      "sensor": {
+        "pm2.5": 135.2,
+        "pm10.0": 147.1
+      }
+    },
+    "reqheaders": {},
+    "responseIsBinary": false
+  }
+]

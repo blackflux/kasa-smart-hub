@@ -1,0 +1,12 @@
+[
+  {
+    "scope": "https://api.purpleair.com:443",
+    "method": "GET",
+    "path": "/v1/sensors/SENSOR_ID_HERE",
+    "body": "",
+    "status": 500,
+    "response": "",
+    "reqheaders": {},
+    "responseIsBinary": false
+  }
+]

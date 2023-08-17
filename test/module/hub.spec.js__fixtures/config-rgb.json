@@ -1,0 +1,16 @@
+{
+  "color": {
+    "RGB Strip": {
+      "source": {
+        "name": "purpleair",
+        "apiKey": "API_KEY_HERE",
+        "sensor": "SENSOR_ID_HERE",
+        "interval": 60
+      }
+    }
+  },
+  "timer": {
+    "__default": 3600,
+    "RGB Strip": 0
+  }
+}

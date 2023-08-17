@@ -1,6 +1,14 @@
 import Joi from 'joi-strict';
 import { time } from './regex.js';
 
+const colorSchema = Joi.object().keys({
+  source: Joi.object().keys({
+    name: Joi.string().valid('purpleair'),
+    apiKey: Joi.string(),
+    sensor: Joi.string(),
+    interval: Joi.number().integer().min(60)
+  })
+});
 const timerSchema = Joi.number().integer().min(0);
 const times = Joi.array().items(Joi.string().regex(time)).unique().min(1);
 
@@ -23,6 +31,10 @@ export default Joi.object().keys({
     .keys({ __default: Joi.number().integer().min(0) })
     .unknown(true)
     .pattern(Joi.string(), timerSchema),
+  color: Joi.object()
+    .unknown(true)
+    .pattern(Joi.string(), colorSchema)
+    .optional(true),
   on: Joi.object().unknown(true).pattern(Joi.string(), times),
   off: Joi.object().unknown(true).pattern(Joi.string(), times),
   timezone: Joi.string()
