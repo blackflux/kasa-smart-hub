@@ -9,7 +9,8 @@ import Mocker from '../helper/mocker.js';
 describe('Testing Hub', {
   useTmpDir: true,
   record: console,
-  timestamp: '2021-03-28T21:39:01.897Z'
+  timestamp: '2021-03-28T21:39:01.897Z',
+  useNock: true
 }, () => {
   before(async () => {
     await Mocker.start();
@@ -22,7 +23,19 @@ describe('Testing Hub', {
   let execute;
   beforeEach(async ({ fixture, dir, recorder }) => {
     const config = await fixture('config');
-    execute = async (expected, cb, cfg = {}) => {
+    execute = async (expected, cb, cfg = {}, init = null) => {
+      if (init === null) {
+        await Mocker.spawn({
+          model: 'hs200',
+          data: { alias: 'Mock HS200-A', mac: '50:c7:bf:46:b4:24', deviceId: 'A200-A' }
+        });
+        await Mocker.spawn({
+          model: 'hs200',
+          data: { alias: 'Mock HS200-B', mac: '8b:fd:e9:90:32:01', deviceId: 'A200-B' }
+        });
+      } else {
+        await init();
+      }
       const logFile = path.join(dir, 'kasa-logs.txt');
       const hub = Hub({
         ...config,
@@ -37,14 +50,6 @@ describe('Testing Hub', {
       expect(recorder.get()).to.deep.equal(expected);
       expect(fs.smartRead(logFile)).to.deep.equal(expected);
     };
-    await Mocker.spawn({
-      model: 'hs200',
-      data: { alias: 'Mock HS200-A', mac: '50:c7:bf:46:b4:24', deviceId: 'A200-A' }
-    });
-    await Mocker.spawn({
-      model: 'hs200',
-      data: { alias: 'Mock HS200-B', mac: '8b:fd:e9:90:32:01', deviceId: 'A200-B' }
-    });
   });
 
   afterEach(async () => {
@@ -248,4 +253,51 @@ describe('Testing Hub', {
       await d1.setPowerState(true);
     }
   ));
+
+  it('Testing Color Hue Change', async ({ fixture }) => {
+    const config = await fixture('config-rgb');
+    await execute(
+      [
+        '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip',
+        '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: RGB Strip @ on',
+        '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #a0347e'
+      ],
+      async (d1) => {
+        await d1.setPowerState(true);
+        await wait(50);
+      },
+      config,
+      async () => {
+        await Mocker.spawn({
+          model: 'hs200',
+          data: { alias: 'RGB Strip', mac: '8b:fd:e9:90:32:01', deviceId: 'KL430-A' }
+        });
+      }
+    );
+  });
+
+  it('Testing Color Hue Change Error', async ({ fixture }) => {
+    const config = await fixture('config-rgb');
+    await execute(
+      [
+        '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip',
+        '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: RGB Strip @ on',
+        '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #76c9ff',
+        '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: RGB Strip @ off'
+      ],
+      async (d1) => {
+        await d1.setPowerState(true);
+        await wait(50);
+        await d1.setPowerState(false);
+        await wait(50);
+      },
+      config,
+      async () => {
+        await Mocker.spawn({
+          model: 'hs200',
+          data: { alias: 'RGB Strip', mac: '8b:fd:e9:90:32:01', deviceId: 'KL430-A' }
+        });
+      }
+    );
+  });
 });
