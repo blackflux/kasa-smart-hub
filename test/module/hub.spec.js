@@ -293,7 +293,7 @@ describe('Testing Hub', {
     await execute(
       [
         '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip',
-        '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #76c9ff'
+        '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #808080'
       ],
       async (d1) => {
         await wait(1200);
