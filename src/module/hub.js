@@ -54,6 +54,9 @@ export default (config_) => {
           method: 'GET',
           headers: {
             'X-API-Key': source.apiKey
+          },
+          params: {
+            fields: 'pm2.5,pm10.0'
           }
         });
         const sensor = data?.sensor;
