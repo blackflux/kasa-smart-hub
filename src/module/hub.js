@@ -99,14 +99,14 @@ export default (config_) => {
     if (device.alias in links) {
       const group = links[device.alias];
       await onlyOnce(
-          `power-toggle: ${[device.alias, ...group].sort().join(' || ')}`,
-          async () => {
-            log(`Link Triggered: ${device.alias} -> ${[...group].join(', ')} @ ${state ? 'on' : 'off'}`);
-            await forEach(
-                (d) => d.status === 'online' && group.has(d.alias),
-                (d) => apply(d, 'setPowerState', state)
-            );
-          }
+        `power-toggle: ${[device.alias, ...group].sort().join(' || ')}`,
+        async () => {
+          log(`Link Triggered: ${device.alias} -> ${[...group].join(', ')} @ ${state ? 'on' : 'off'}`);
+          await forEach(
+            (d) => d.status === 'online' && group.has(d.alias),
+            (d) => apply(d, 'setPowerState', state)
+          );
+        }
       );
     }
   };
