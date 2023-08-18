@@ -259,7 +259,6 @@ describe('Testing Hub', {
     await execute(
       [
         '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip',
-        '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: RGB Strip @ on',
         '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #a0347e'
       ],
       async (d1) => {
@@ -269,7 +268,26 @@ describe('Testing Hub', {
       config,
       async () => {
         await Mocker.spawn({
-          model: 'hs200',
+          model: 'kl430',
+          data: { alias: 'RGB Strip', mac: '8b:fd:e9:90:32:01', deviceId: 'KL430-A' }
+        });
+      }
+    );
+  });
+
+  it('Testing RGB No Config', async ({ fixture }) => {
+    await execute(
+      [
+        '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip'
+      ],
+      async (d1) => {
+        await d1.setPowerState(true);
+        await wait(50);
+      },
+      {},
+      async () => {
+        await Mocker.spawn({
+          model: 'kl430',
           data: { alias: 'RGB Strip', mac: '8b:fd:e9:90:32:01', deviceId: 'KL430-A' }
         });
       }
@@ -281,9 +299,7 @@ describe('Testing Hub', {
     await execute(
       [
         '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip',
-        '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: RGB Strip @ on',
-        '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #76c9ff',
-        '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: RGB Strip @ off'
+        '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #76c9ff'
       ],
       async (d1) => {
         await d1.setPowerState(true);
@@ -294,7 +310,7 @@ describe('Testing Hub', {
       config,
       async () => {
         await Mocker.spawn({
-          model: 'hs200',
+          model: 'kl430',
           data: { alias: 'RGB Strip', mac: '8b:fd:e9:90:32:01', deviceId: 'KL430-A' }
         });
       }
