@@ -30,40 +30,49 @@ export default (config_) => {
   const forEach = ForEach(client);
   const apply = Apply(log);
 
-  const updateDeviceColor = async (device, state) => {
+  const registerDeviceColorUpdate = (device) => {
     const provider = config?.color?.[device.alias];
     if (provider === undefined) {
-      return null;
+      return;
     }
-    let hex = '#76c9ff';
-    try {
-      const { source } = provider;
-      assert(source.name = 'purpleair');
-      const now = new Date() / 1000;
-      if (device.last_color_update && device.last_color_update + source.interval * 1000 > now) {
-        return null;
-      }
-      // eslint-disable-next-line no-param-reassign
-      device.last_color_update = now;
-      const { data } = await axios({
-        url: `https://api.purpleair.com/v1/sensors/${source.sensor}`,
-        method: 'GET',
-        headers: {
-          'X-API-Key': source.apiKey
+    assert(!device.color_update_timer);
+
+    const fn = async () => {
+      let hex = '#76c9ff';
+      try {
+        const { source } = provider;
+        const delay = source.interval * 1000;
+        assert(source.name = 'purpleair');
+        const now = new Date() / 1000;
+        if (device.last_color_update && device.last_color_update + delay > now) {
+          return;
         }
+        // eslint-disable-next-line no-param-reassign
+        device.last_color_update = now;
+        const { data } = await axios({
+          url: `https://api.purpleair.com/v1/sensors/${source.sensor}`,
+          method: 'GET',
+          headers: {
+            'X-API-Key': source.apiKey
+          }
+        });
+        const sensor = data?.sensor;
+        const aqi = await sensorToAqi(sensor);
+        hex = aqiToColor(aqi);
+      } catch (e) { /* ignored */ }
+      const [r, g, b] = hexToRgb(hex);
+      const [h, s, v] = rgbToHsb(r, g, b);
+      log('debug', `Color Update: ${hex}`);
+      await apply(device, 'lighting.setLightState', {
+        hue: h,
+        saturation: s,
+        brightness: v
       });
-      const sensor = data?.sensor;
-      const aqi = await sensorToAqi(sensor);
-      hex = aqiToColor(aqi);
-    } catch (e) { /* ignored */ }
-    const [r, g, b] = hexToRgb(hex);
-    const [h, s, v] = rgbToHsb(r, g, b);
-    log('debug', `Color Update: ${hex}`);
-    return device.lighting.setLightState({
-      hue: h,
-      saturation: s,
-      brightness: v
-    });
+    };
+
+    fn();
+    // eslint-disable-next-line no-param-reassign
+    device.color_update_timer = setInterval(fn, 1000);
   };
 
   const updateDeviceTimer = async (device, state) => onlyOnce(`update-timer: ${device.alias}`, async () => {
@@ -109,9 +118,7 @@ export default (config_) => {
     device.addListener('power-update', async (state) => {
       await updateDeviceTimer(device, state);
     });
-    device.addListener('lightstate-update', async (state) => {
-      await updateDeviceColor(device, state);
-    });
+    registerDeviceColorUpdate(device);
     // fast polling for linked devices
     if (device.alias in links) {
       device.startPolling(500);
@@ -133,6 +140,9 @@ export default (config_) => {
     },
     stop: () => {
       [...client.devices.values()].forEach((d) => {
+        if (d.color_update_timer) {
+          clearInterval(d.color_update_timer);
+        }
         d.stopPolling();
       });
       client.stopDiscovery();
