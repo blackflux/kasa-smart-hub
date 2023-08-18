@@ -261,10 +261,7 @@ describe('Testing Hub', {
         '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip',
         '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #a0347e'
       ],
-      async (d1) => {
-        await d1.setPowerState(true);
-        await wait(50);
-      },
+      async (d1) => {},
       config,
       async () => {
         await Mocker.spawn({
@@ -280,10 +277,7 @@ describe('Testing Hub', {
       [
         '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip'
       ],
-      async (d1) => {
-        await d1.setPowerState(true);
-        await wait(50);
-      },
+      async (d1) => {},
       {},
       async () => {
         await Mocker.spawn({
@@ -302,10 +296,7 @@ describe('Testing Hub', {
         '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #76c9ff'
       ],
       async (d1) => {
-        await d1.setPowerState(true);
-        await wait(50);
-        await d1.setPowerState(false);
-        await wait(50);
+        await wait(1200);
       },
       config,
       async () => {
