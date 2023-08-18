@@ -14,7 +14,6 @@ import aqiToColor from '../util/aqi-to-color.js';
 import sensorToAqi from '../util/sensor-to-aqi.js';
 import rgbToHsb from '../util/colors/rgb-to-hsb.js';
 import hexToRgb from '../util/colors/hex-to-rgb.js';
-import catchAndIgnore from '../util/catch-and-ignore.js';
 
 const { Client } = tplink;
 
@@ -38,15 +37,14 @@ export default (config_) => {
     }
     assert(!device.color_update_timer);
 
-    const fn = catchAndIgnore(async () => {
+    const fn = async () => {
       let hex = '#76c9ff';
-      await catchAndIgnore(async () => {
+      try {
         const { source } = provider;
         const delay = source.interval * 1000;
         assert(source.name = 'purpleair');
-        const now = new Date() / 1000;
+        const now = new Date() / 1;
         if (device.last_color_update && device.last_color_update + delay > now) {
-          hex = null; // skip
           return;
         }
         // eslint-disable-next-line no-param-reassign
@@ -61,10 +59,7 @@ export default (config_) => {
         const sensor = data?.sensor;
         const aqi = await sensorToAqi(sensor);
         hex = aqiToColor(aqi);
-      })();
-      if (hex === null) {
-        return;
-      }
+      } catch (e) { /* ignored */ }
       const [r, g, b] = hexToRgb(hex);
       const [h, s, v] = rgbToHsb(r, g, b);
       log('debug', `Color Update: ${hex}`);
@@ -73,7 +68,7 @@ export default (config_) => {
         saturation: s,
         brightness: v
       });
-    });
+    };
 
     fn();
     // eslint-disable-next-line no-param-reassign
