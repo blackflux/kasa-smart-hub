@@ -38,7 +38,7 @@ export default (config_) => {
     assert(!device.color_update_timer);
 
     const fn = async () => {
-      let hex = '#76c9ff';
+      let hex = '#808080';
       try {
         const { source } = provider;
         const delay = source.interval * 1000;
