@@ -10,7 +10,7 @@ export default {
     if (!fs.existsSync(filepath)) {
       throw new Error('Configuration file not found...');
     }
-    const config = fs.smartRead(filepath);
+    const config = await fs.smartRead(filepath);
     const hub = Hub(config);
     await hub.start();
     return hub;
