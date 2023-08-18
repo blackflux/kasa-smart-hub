@@ -102,16 +102,16 @@ export default (config_) => {
     }
   };
 
-  const onDeviceSync = async (device, state) => {
-    await updateDeviceTimer(device, state);
-    await updateDeviceColor(device, state);
-  };
-
   client.on('device-new', (device) => {
     log(`New Device: ${device.alias}`);
     device.addListener('power-on', () => onDevicePowerStateChange(device, true));
     device.addListener('power-off', () => onDevicePowerStateChange(device, false));
-    device.addListener('power-update', async (state) => onDeviceSync(device, state));
+    device.addListener('power-update', async (state) => {
+      await updateDeviceTimer(device, state);
+    });
+    device.addListener('lightstate-update', async (state) => {
+      await updateDeviceColor(device, state);
+    });
     // fast polling for linked devices
     if (device.alias in links) {
       device.startPolling(500);
