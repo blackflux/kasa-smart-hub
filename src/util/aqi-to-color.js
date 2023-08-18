@@ -1,12 +1,12 @@
 import blendColors from './blend-colors.js';
 
 const colors = [
-  [300, '#7e0023'], // Hazardous
+  [300, '#41007e'], // Hazardous
   [200, '#8f3f97'], // Very Unhealthy
   [150, '#ff0000'], // Unhealthy
   [100, '#ff7e00'], // Unhealthy for Sensitive Groups
   [50, '#ffff00'], // Moderate
-  [0, '#00e400'] // Good
+  [0, '#68e143'] // Good
 ];
 
 export default (aqi) => {
