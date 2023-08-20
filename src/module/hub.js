@@ -60,7 +60,7 @@ export default (config_) => {
           }
         });
         const sensor = data?.sensor;
-        const aqi = await sensorToAqi(sensor);
+        const aqi = sensorToAqi(sensor);
         hex = aqiToColor(aqi);
       } catch (e) { /* ignored */ }
       const [r, g, b] = hexToRgb(hex);
