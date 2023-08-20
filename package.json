@@ -19,6 +19,7 @@
     "@babel/register": "7.22.5",
     "@blackflux/eslint-plugin-rules": "3.0.1",
     "@blackflux/robo-config-plugin": "9.1.15",
+    "aqi-bot": "1.1.4",
     "c8": "8.0.1",
     "chai": "4.3.7",
     "eslint": "8.47.0",
@@ -80,7 +81,6 @@
   },
   "dependencies": {
     "@blackflux/axios": "2.0.2",
-    "aqi-bot": "1.1.4",
     "date-fns": "2.30.0",
     "date-fns-tz": "2.0.0",
     "joi-strict": "3.0.1",
