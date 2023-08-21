@@ -1,7 +1,8 @@
 import blendColors from './blend-colors.js';
 
 const colors = [
-  [300, '#41007e'], // Hazardous
+  [800, '#002e91'], // Above Scale
+  [300, '#5e00ff'], // Hazardous
   [200, '#8f3f97'], // Very Unhealthy
   [150, '#ff0000'], // Unhealthy
   [100, '#ff7e00'], // Unhealthy for Sensitive Groups
