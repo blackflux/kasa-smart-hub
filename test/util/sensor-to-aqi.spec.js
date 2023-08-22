@@ -45,4 +45,12 @@ describe('Testing sensor-to-aqi.js', () => {
     };
     expect(sensorToAqi(sensor)).to.equal(0);
   });
+
+  it('Testing undefined values', () => {
+    const sensor = {
+      'pm2.5': undefined,
+      'pm10.0': undefined
+    };
+    expect(sensorToAqi(sensor)).to.deep.equal(Number.NaN);
+  });
 });

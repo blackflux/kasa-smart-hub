@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe } from 'node-tdd';
 import aqiToColor from '../../src/util/aqi-to-color.js';
+import { ERROR_COLOR } from '../../src/resources/config.js';
 
 describe('Testing aqi-to-color.js', () => {
   it('Testing exact colors', async () => {
@@ -27,5 +28,9 @@ describe('Testing aqi-to-color.js', () => {
     expect(aqiToColor(25)).to.equal('#b3f021');
     expect(aqiToColor(-1)).to.equal('#68e143');
     expect(aqiToColor(-50)).to.equal('#68e143');
+  });
+
+  it('Testing NaN', async () => {
+    expect(aqiToColor(Number.NaN)).to.equal(ERROR_COLOR);
   });
 });

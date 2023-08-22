@@ -5,6 +5,7 @@ import { describe } from 'node-tdd';
 import wait from '../helper/wait.js';
 import Hub from '../../src/module/hub.js';
 import Mocker from '../helper/mocker.js';
+import { ERROR_COLOR } from '../../src/resources/config.js';
 
 describe('Testing Hub', {
   useTmpDir: true,
@@ -293,7 +294,7 @@ describe('Testing Hub', {
     await execute(
       [
         '[2021-03-28T21:39:01.897Z]: New Device: RGB Strip',
-        '[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: #808080'
+        `[2021-03-28T21:39:01.897Z] [DEBUG]: Color Update: ${ERROR_COLOR}`
       ],
       async (d1) => {
         await wait(1200);
