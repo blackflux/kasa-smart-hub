@@ -1,4 +1,5 @@
 import blendColors from './blend-colors.js';
+import { ERROR_COLOR } from '../resources/config.js';
 
 const colors = [
   [800, '#002e91'], // Above Scale
@@ -11,6 +12,9 @@ const colors = [
 ];
 
 export default (aqi) => {
+  if (Number.isNaN(aqi)) {
+    return ERROR_COLOR;
+  }
   const idx = colors.findIndex((c) => c[0] < aqi);
   if (idx === 0) {
     return colors[0][1];
