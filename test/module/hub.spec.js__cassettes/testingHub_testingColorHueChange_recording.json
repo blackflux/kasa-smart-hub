@@ -7,7 +7,9 @@
     "status": 200,
     "response": {
       "sensor": {
-        "pm2.5_10minute": 135.2,
+        "stats": {
+          "pm2.5_10minute": 135.2
+        },
         "pm10.0": 147.1
       }
     },

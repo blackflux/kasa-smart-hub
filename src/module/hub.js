@@ -59,10 +59,9 @@ export default (config_) => {
             fields: 'pm2.5_10minute,pm10.0'
           }
         });
-        const sensor = data?.sensor;
         const aqi = sensorToAqi({
-          'pm2.5': sensor['pm2.5_10minute'],
-          'pm10.0': sensor['pm10.0']
+          'pm2.5': data?.sensor?.stats?.['pm2.5_10minute'],
+          'pm10.0': data?.sensor?.['pm10.0']
         });
         hex = aqiToColor(aqi);
       } catch (e) { /* ignored */ }
