@@ -14,6 +14,7 @@ import aqiToColor from '../util/aqi-to-color.js';
 import sensorToAqi from '../util/sensor-to-aqi.js';
 import rgbToHsb from '../util/colors/rgb-to-hsb.js';
 import hexToRgb from '../util/colors/hex-to-rgb.js';
+import { ERROR_COLOR } from '../resources/config.js';
 
 const { Client } = tplink;
 
@@ -38,7 +39,7 @@ export default (config_) => {
     assert(!device.color_update_timer);
 
     const fn = async () => {
-      let hex = '#808080';
+      let hex = ERROR_COLOR;
       try {
         const { source } = provider;
         const delay = source.interval * 1000;
