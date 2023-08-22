@@ -56,11 +56,14 @@ export default (config_) => {
             'X-API-Key': source.apiKey
           },
           params: {
-            fields: 'pm2.5,pm10.0'
+            fields: 'pm2.5_10minute,pm10.0'
           }
         });
         const sensor = data?.sensor;
-        const aqi = sensorToAqi(sensor);
+        const aqi = sensorToAqi({
+          'pm2.5': sensor['pm2.5_10minute'],
+          'pm10.0': sensor['pm10.0']
+        });
         hex = aqiToColor(aqi);
       } catch (e) { /* ignored */ }
       const [r, g, b] = hexToRgb(hex);
