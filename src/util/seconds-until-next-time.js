@@ -1,4 +1,4 @@
-import { utcToZonedTime, format } from 'date-fns-tz';
+import { toZonedTime, format } from 'date-fns-tz';
 import { time as timeRegex } from '../resources/regex.js';
 
 const dayOfWeekMap = {
@@ -11,7 +11,7 @@ const dayOfWeekMap = {
   Sa: 6
 };
 
-const formatAtTimezone = (date, fmt, timeZone) => format(utcToZonedTime(date, timeZone), fmt, { timeZone });
+const formatAtTimezone = (date, fmt, timeZone) => format(toZonedTime(date, timeZone), fmt, { timeZone });
 
 const getUntilInSeconds = (currentDateObj, time, timezone) => {
   const { weekday, hours, minutes } = timeRegex.exec(time).groups;

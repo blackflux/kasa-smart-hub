@@ -17,7 +17,7 @@ Designed to be run on a LAN server, e.g. on a [Raspberry Pi](https://en.wikipedi
 
 Install as global npm packages. Then create configuration file and start with
 
-```sh
+```
 kasa-smart-hub /path/to/config.json
 ```
 

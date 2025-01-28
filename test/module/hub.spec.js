@@ -22,6 +22,7 @@ describe('Testing Hub', {
   });
 
   let execute;
+
   beforeEach(async ({ fixture, dir, recorder }) => {
     const config = await fixture('config');
     execute = async (expected, cb, cfg = {}, init = null) => {
