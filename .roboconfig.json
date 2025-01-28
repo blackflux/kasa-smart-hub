@@ -4,7 +4,7 @@
       "assorted/@npm-opensource"
     ],
     "variables": {
-      "nodeVersion": "16",
+      "nodeVersion": "20",
       "repoKey": "blackflux/kasa-smart-hub",
       "packageName": "kasa-smart-hub",
       "projectName": "kasa-smart-hub",

@@ -14,23 +14,23 @@
   "author": "Lukas Siemon",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "7.22.10",
-    "@babel/eslint-parser": "7.22.10",
-    "@babel/register": "7.22.5",
-    "@blackflux/eslint-plugin-rules": "3.0.1",
-    "@blackflux/robo-config-plugin": "9.1.15",
+    "@babel/core": "7.26.7",
+    "@babel/eslint-parser": "7.26.5",
+    "@babel/register": "7.25.9",
+    "@blackflux/eslint-plugin-rules": "4.0.0",
+    "@blackflux/robo-config-plugin": "10.0.0",
     "aqi-bot": "1.1.4",
-    "c8": "8.0.1",
-    "chai": "4.3.7",
-    "eslint": "8.47.0",
+    "c8": "10.1.3",
+    "chai": "5.1.2",
+    "eslint": "9.19.0",
     "eslint-config-airbnb-base": "15.0.0",
-    "eslint-plugin-import": "2.28.0",
-    "eslint-plugin-json": "3.1.0",
-    "eslint-plugin-markdown": "3.0.1",
-    "eslint-plugin-mocha": "10.1.0",
-    "js-gardener": "5.0.2",
-    "node-tdd": "4.0.1",
-    "tplink-smarthome-simulator": "4.0.0"
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-json": "4.0.1",
+    "eslint-plugin-markdown": "5.1.0",
+    "eslint-plugin-mocha": "10.5.0",
+    "js-gardener": "6.0.2",
+    "node-tdd": "6.0.0",
+    "tplink-smarthome-simulator": "5.0.1"
   },
   "licenses": [
     {
@@ -60,7 +60,7 @@
     "clean": "rm -rf lib",
     "build": "cp -rf ./src ./lib",
     "build-clean": "yarn run clean && yarn run build",
-    "test-simple": "c8 mocha --experimental-loader=./test/hot.js \"./test/**/*.spec.js\"",
+    "test-simple": "c8 mocha --import=./test/reg.js \"./test/**/*.spec.js\"",
     "test": "yarn run clean && yarn run gardener && yarn run test-simple",
     "docker": "docker run --net host -u`id -u`:`id -g` -v $(pwd):/user/project -v ~/.aws:/user/.aws -v ~/.npmrc:/user/.npmrc -w /user/project -it --entrypoint /bin/bash",
     "u": "yarn upgrade --latest --force",
@@ -69,7 +69,7 @@
     "t": "yarn test",
     "ts": "yarn run test-simple",
     "tsv": "yarn run test-simple --verbose",
-    "semantic-release": "yarn run build-clean && npx semantic-release",
+    "semantic-release": "yarn run build-clean && yarn exec semantic-release",
     "gardener": "node gardener.js"
   },
   "homepage": "https://github.com/blackflux/kasa-smart-hub#readme",
@@ -77,15 +77,15 @@
     "url": "https://github.com/blackflux/kasa-smart-hub/issues"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 20"
   },
   "dependencies": {
-    "@blackflux/axios": "2.0.2",
-    "date-fns": "2.30.0",
-    "date-fns-tz": "2.0.0",
-    "joi-strict": "3.0.1",
-    "object-scan": "19.0.2",
-    "smart-fs": "4.0.1",
+    "@blackflux/axios": "3.0.0",
+    "date-fns": "4.1.0",
+    "date-fns-tz": "3.2.0",
+    "joi-strict": "4.0.0",
+    "object-scan": "20.0.0",
+    "smart-fs": "5.0.1",
     "tplink-smarthome-api": "4.2.0",
     "yargs": "17.7.2"
   }

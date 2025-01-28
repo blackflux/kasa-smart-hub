@@ -65,7 +65,7 @@ export default (config_) => {
           'pm10.0': data?.sensor?.['pm10.0']
         });
         hex = aqiToColor(aqi);
-      } catch (e) { /* ignored */ }
+      } catch { /* ignored */ }
       const [r, g, b] = hexToRgb(hex);
       const [h, s, v] = rgbToHsb(r, g, b);
       log('debug', `Color Update: ${hex}`);

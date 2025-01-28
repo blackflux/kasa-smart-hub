@@ -9,7 +9,7 @@ export default (log, timeout = 1000) => async (device, cmd, ...args) => {
     try {
       // eslint-disable-next-line no-await-in-loop
       return await path.reduce((prev, cur) => prev[cur], device)[fn](...args);
-    } catch (e) {
+    } catch {
       // eslint-disable-next-line no-await-in-loop
       await delay(timeout);
     }
