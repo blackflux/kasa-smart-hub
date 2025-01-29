@@ -4,6 +4,7 @@ import ForEach from '../../src/util/for-each.js';
 
 describe('Testing for-each.js', () => {
   let forEach;
+
   beforeEach(() => {
     forEach = ForEach({ devices: { values: () => [1, 2, 3] } });
   });

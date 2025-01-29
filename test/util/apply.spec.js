@@ -13,6 +13,7 @@ describe('Testing apply.js', {
   let log;
   let apply;
   let check;
+
   beforeEach(({ dir, recorder }) => {
     logFile = path.join(dir, 'out.txt');
     log = Log({ logFile });
