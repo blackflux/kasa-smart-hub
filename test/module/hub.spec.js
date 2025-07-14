@@ -25,7 +25,7 @@ describe('Testing Hub', {
 
   beforeEach(async ({ fixture, dir, recorder }) => {
     const config = await fixture('config');
-    execute = async (expected, cb, cfg = {}, init = null) => {
+    execute = async (expected, cb, cfg = {}, init = null, delay = 50) => {
       if (init === null) {
         await Mocker.spawn({
           model: 'hs200',
@@ -45,9 +45,9 @@ describe('Testing Hub', {
         ...cfg
       });
       hub.start();
-      await wait(50);
+      await wait(delay);
       await cb(...hub.getDevices());
-      await wait(50);
+      await wait(delay);
       hub.stop();
       expect(recorder.get()).to.deep.equal(expected);
       expect(fs.smartRead(logFile)).to.deep.equal(expected);
@@ -140,6 +140,36 @@ describe('Testing Hub', {
         'switch-link': ['Mock HS200-A', 'Mock HS200-B']
       }
     }
+  ));
+
+  it('Testing Linked Devices with Error', () => execute(
+    [
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-A',
+      '[2021-03-28T21:39:01.897Z]: New Device: Mock HS200-B',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-A @ on',
+      '[2021-03-28T21:39:01.897Z]: Link Triggered: Mock HS200-A -> Mock HS200-B @ on',
+      '[2021-03-28T21:39:01.897Z] [DEBUG]: State Changed: Mock HS200-B @ on',
+      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-A - OFF in 12:00:00',
+      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-B - OFF in 12:00:00',
+      '[2021-03-28T21:39:01.897Z]: Timer Started: Mock HS200-B - OFF in 12:00:00'
+    ],
+    async (d1) => {
+      await d1.setPowerState(true);
+      const getInfo = d1.getInfo;
+      // eslint-disable-next-line no-param-reassign
+      d1.getInfo = () => {
+        // eslint-disable-next-line no-param-reassign
+        d1.getInfo = getInfo;
+        throw new Error('Temporary getInfo() error');
+      };
+    },
+    {
+      links: {
+        'switch-link': ['Mock HS200-A', 'Mock HS200-B']
+      }
+    },
+    null,
+    600
   ));
 
   it('Testing Linked Devices, and Off', () => execute(
