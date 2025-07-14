@@ -127,7 +127,13 @@ export default (config_) => {
     registerDeviceColorUpdate(device);
     // fast polling for linked devices
     if (device.alias in links) {
-      device.startPolling(500);
+      const fn = async () => {
+        try {
+          await device.getInfo();
+        } catch { /* ignored */ }
+      };
+      // eslint-disable-next-line no-param-reassign
+      device.polling_timer = setInterval(fn, 500);
     }
   });
 
@@ -149,7 +155,9 @@ export default (config_) => {
         if (d.color_update_timer) {
           clearInterval(d.color_update_timer);
         }
-        d.stopPolling();
+        if (d.polling_timer) {
+          clearInterval(d.polling_timer);
+        }
       });
       client.stopDiscovery();
     },
